@@ -46,7 +46,10 @@ public class PlayerMoveAbility : MonoBehaviour
 
     private void ApplyGravity()
     {
-        _yVelocity += _playerData.Gravity * Time.deltaTime;
+        if (!_characterController.isGrounded)
+        {
+            _yVelocity += _playerData.Gravity * Time.deltaTime;
+        }
     }
 
     private void Jump()
