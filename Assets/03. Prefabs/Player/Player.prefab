@@ -1537,6 +1537,37 @@ Transform:
   - {fileID: 7899645806707477189}
   m_Father: {fileID: 7169274372601786421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4863988477266890107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2651111433105166331}
+  m_Layer: 0
+  m_Name: CameraRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2651111433105166331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4863988477266890107}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8855052669661678444}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!1 &5038391669603667068
 GameObject:
   m_ObjectHideFlags: 0
@@ -2404,6 +2435,7 @@ GameObject:
   - component: {fileID: 9036980633323257398}
   - component: {fileID: 3349312500353394708}
   - component: {fileID: 3046529163146984940}
+  - component: {fileID: 2281418603079631226}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2429,6 +2461,7 @@ Transform:
   - {fileID: 4052450133362360554}
   - {fileID: 4651028323595200166}
   - {fileID: 4682473949907222776}
+  - {fileID: 2651111433105166331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &9036980633323257398
@@ -2490,7 +2523,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402ecdf18492380429fbbebebb6bb92c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 7
+  _playerData:
+    MoveSpeed: 0
+    JumpPower: 0
+    Gravity: 0
+--- !u!114 &2281418603079631226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189980434977739222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a7f866bb33cb941b622198f72f95cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraRoot: {fileID: 0}
+  _rotationSpeed: 10
 --- !u!1 &8206070634150816031
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,6 +31,9 @@ public class PlayerMoveAbility : MonoBehaviour
         Vector3 dir = new Vector3(h, 0, v);
         dir = dir.normalized;
 
+        // 카메라가 바라보는 방향 기준으로 수정하기
+        dir = Camera.main.transform.TransformDirection(dir);
+
         // 2-2. 수직 속도에 중력 값을 적용한다.
         ApplyGravity();
 
