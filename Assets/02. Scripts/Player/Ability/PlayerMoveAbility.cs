@@ -1,14 +1,17 @@
 using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
-public class PlayerMoveAbility : MonoBehaviour
+public class PlayerMoveAbility : PlayerAbility
 {
-    [SerializeField]
-    private PlayerData _playerData;
-
     private CharacterController _characterController;
+
     // 누적될 속력 변수
     private float _yVelocity = 0f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 
     private void Start()
     {
@@ -31,27 +34,32 @@ public class PlayerMoveAbility : MonoBehaviour
         Vector3 dir = new Vector3(h, 0, v);
         dir = dir.normalized;
 
+        Animator.SetFloat("Move", dir.magnitude);
+
+        if (dir.magnitude <= 0f)
+        {
+            return;
+        }
+
         // 카메라가 바라보는 방향 기준으로 수정하기
         dir = Camera.main.transform.TransformDirection(dir);
-
+        dir.y = _yVelocity;
         // 2-2. 수직 속도에 중력 값을 적용한다.
         ApplyGravity();
 
         // 2-3. 수직 속도에 캐릭터 점프 여부에 따른 값을 적용한다.
         Jump();
 
-        dir.y = _yVelocity;
-
         // 3. 이동 속도에 따라 그 방향으로 이동하기
         // 캐릭터의 위치 = 현재 위치 + 속도  * 시간
-        _characterController.Move(dir * _playerData.MoveSpeed * Time.deltaTime);
+        _characterController.Move(dir * Owner.Stat.MoveSpeed * Time.deltaTime);
     }
 
     private void ApplyGravity()
     {
         if (!_characterController.isGrounded)
         {
-            _yVelocity += _playerData.Gravity * Time.deltaTime;
+            _yVelocity += Owner.Stat.Gravity * Time.deltaTime;
         }
     }
 
@@ -59,7 +67,7 @@ public class PlayerMoveAbility : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
         {
-            _yVelocity = _playerData.JumpPower;
+            _yVelocity = Owner.Stat.JumpPower;
         }
     }
 }
