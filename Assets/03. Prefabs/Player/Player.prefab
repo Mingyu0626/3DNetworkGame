@@ -2434,8 +2434,10 @@ GameObject:
   - component: {fileID: 8855052669661678444}
   - component: {fileID: 9036980633323257398}
   - component: {fileID: 3349312500353394708}
+  - component: {fileID: 1996939636572311641}
   - component: {fileID: 3046529163146984940}
   - component: {fileID: 2281418603079631226}
+  - component: {fileID: 4441261633663720884}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2511,6 +2513,26 @@ CharacterController:
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!114 &1996939636572311641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189980434977739222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0e2a88ab0928e4dbb2ba3044b91980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stat:
+    Health: 100
+    MoveSpeed: 20
+    JumpPower: 5
+    Gravity: 10
+    RotateSpeed: 200
+    YRotationMax: 40
+    YRotationMin: -40
 --- !u!114 &3046529163146984940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2523,10 +2545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402ecdf18492380429fbbebebb6bb92c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData:
-    MoveSpeed: 0
-    JumpPower: 0
-    Gravity: 0
 --- !u!114 &2281418603079631226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2540,7 +2558,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraRoot: {fileID: 0}
-  _rotationSpeed: 10
+--- !u!114 &4441261633663720884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189980434977739222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9cd825c4bb8a54fa91c63f7f1b3c0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8206070634150816031
 GameObject:
   m_ObjectHideFlags: 0

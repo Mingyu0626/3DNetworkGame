@@ -7329,6 +7329,14 @@ PrefabInstance:
       propertyPath: _playerData.MoveSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4233366137089380037, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.025034066
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233366137089380037, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0012542872
+      objectReference: {fileID: 0}
     - target: {fileID: 8189980434977739222, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -7373,6 +7381,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9036980633323257398, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0843d72022f0c0b4fa32e9084a0afadd, type: 2}
     - target: {fileID: 9036980633323257398, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
