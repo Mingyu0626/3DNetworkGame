@@ -14,6 +14,9 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 60;
+
         // 설정
         // 1. 버전 : 버전이 다르면, 다른 서버로 접속된다.
         PhotonNetwork.GameVersion = _version;

@@ -9,7 +9,12 @@ public class PlayerAttackAbility : PlayerAbility
         base.Awake();
     }
 
-    private void Update()
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    protected override void DoAbility()
     {
         Attack();
     }

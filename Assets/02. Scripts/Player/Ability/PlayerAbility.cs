@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerAbility : MonoBehaviour
+public abstract class PlayerAbility : MonoBehaviour
 {
     private Player _owner;
     protected Player Owner => _owner;
@@ -8,9 +9,25 @@ public class PlayerAbility : MonoBehaviour
     private Animator _animator;
     protected Animator Animator => _animator;
 
+    private PhotonView _photonView;
+    protected PhotonView PhotonView => _photonView;
+
     protected virtual void Awake()
     {
         _owner = GetComponent<Player>();
         _animator = GetComponent<Animator>();
+        _photonView = GetComponent<PhotonView>();
     }
+
+    private void Update()
+    {
+        if (!PhotonView.IsMine)
+        {
+            return;
+        }
+        DoAbility();
+    }
+
+    protected abstract void DoAbility();
+
 }

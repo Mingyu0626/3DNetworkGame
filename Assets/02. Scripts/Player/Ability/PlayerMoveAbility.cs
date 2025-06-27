@@ -1,4 +1,4 @@
-using Unity.Android.Gradle.Manifest;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerMoveAbility : PlayerAbility
@@ -18,7 +18,12 @@ public class PlayerMoveAbility : PlayerAbility
         _characterController = GetComponent<CharacterController>();
     }
 
-    private void Update()
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    protected override void DoAbility()
     {
         Jump();
         Movement();
