@@ -20,5 +20,4 @@ public class PlayerStat
     [Header("Attack")]
     [Tooltip("초당 공격 횟수")]
     public float AttackSpeed = 1.2f;
-    public float AttackCooltime = 0.6f;
 }

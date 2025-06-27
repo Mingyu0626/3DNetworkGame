@@ -17,9 +17,8 @@ public class PlayerAttackAbility : PlayerAbility
     private void Attack()
     {
         AttackTimer += Time.deltaTime;
-        if (Owner.Stat.AttackCooltime <= AttackTimer && Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && (1f / Owner.Stat.AttackSpeed) <= AttackTimer)
         {
-            Debug.Log("Attack");
             AttackTimer = 0f;
             Animator.SetTrigger($"Attack{Random.Range(1, 4)}");
         }
