@@ -19,7 +19,7 @@ public abstract class PlayerAbility : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (!PhotonView.IsMine)
         {
