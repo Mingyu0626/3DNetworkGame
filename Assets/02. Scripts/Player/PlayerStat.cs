@@ -7,7 +7,6 @@ public class PlayerStat
     [Header("Basic Stat")]
     public int Health;
 
-
     [Header("Movement")]
     public float MoveSpeed;
     public float JumpPower;
@@ -18,7 +17,8 @@ public class PlayerStat
     public float YRotationMax;
     public float YRotationMin;
 
-
     [Header("Attack")]
-    public readonly float ATTACK_COOLTIME = 0.6f;
+    [Tooltip("초당 공격 횟수")]
+    public float AttackSpeed = 1.2f;
+    public float AttackCooltime = 0.6f;
 }

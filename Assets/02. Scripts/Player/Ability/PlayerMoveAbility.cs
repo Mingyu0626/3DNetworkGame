@@ -43,9 +43,9 @@ public class PlayerMoveAbility : PlayerAbility
 
         // 카메라가 바라보는 방향 기준으로 수정하기
         dir = Camera.main.transform.TransformDirection(dir);
-        dir.y = _yVelocity;
         // 2-2. 수직 속도에 중력 값을 적용한다.
         ApplyGravity();
+        dir.y = _yVelocity;
 
         // 2-3. 수직 속도에 캐릭터 점프 여부에 따른 값을 적용한다.
         Jump();
@@ -57,10 +57,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void ApplyGravity()
     {
-        if (!_characterController.isGrounded)
-        {
-            _yVelocity += Owner.Stat.Gravity * Time.deltaTime;
-        }
+        _yVelocity += Owner.Stat.Gravity * Time.deltaTime;
     }
 
     private void Jump()

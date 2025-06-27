@@ -11,14 +11,15 @@ public class PlayerAttackAbility : PlayerAbility
 
     private void Update()
     {
-        AttackTimer += Time.deltaTime;
         Attack();
     }
 
     private void Attack()
     {
-        if (AttackTimer >= Owner.Stat.ATTACK_COOLTIME && Input.GetMouseButton(0))
+        AttackTimer += Time.deltaTime;
+        if (Owner.Stat.AttackCooltime <= AttackTimer && Input.GetMouseButton(0))
         {
+            Debug.Log("Attack");
             AttackTimer = 0f;
             Animator.SetTrigger($"Attack{Random.Range(1, 4)}");
         }

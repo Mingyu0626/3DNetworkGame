@@ -7289,6 +7289,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1996939636572311641, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
+      propertyPath: Stat.Gravity
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996939636572311641, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
+      propertyPath: Stat.JumpPower
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996939636572311641, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
+      propertyPath: Stat.MoveSpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2281418603079631226, guid: 7e078670d99135d49a62eeb5e9c970a0, type: 3}
       propertyPath: _cameraRoot
       value: 
