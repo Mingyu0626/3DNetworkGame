@@ -2439,6 +2439,8 @@ GameObject:
   - component: {fileID: 2281418603079631226}
   - component: {fileID: 4441261633663720884}
   - component: {fileID: 8005416142109591452}
+  - component: {fileID: 7106387826408514556}
+  - component: {fileID: 365224441959943336}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2477,10 +2479,10 @@ Animator:
   m_GameObject: {fileID: 8189980434977739222}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0308cf4e83cf517488b60af58b290fe0, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2be64f57d7d213648aa9b2e5e8e0a39b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0843d72022f0c0b4fa32e9084a0afadd, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2528,9 +2530,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stat:
     Health: 100
-    MoveSpeed: 20
-    JumpPower: 5
-    Gravity: 10
+    MoveSpeed: 15
+    JumpPower: 2.5
+    Gravity: -10
     RotateSpeed: 200
     YRotationMax: 40
     YRotationMin: -40
@@ -2559,7 +2561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a7f866bb33cb941b622198f72f95cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraRoot: {fileID: 0}
+  _cameraRoot: {fileID: 2651111433105166331}
 --- !u!114 &4441261633663720884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2590,10 +2592,58 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 7106387826408514556}
+  - {fileID: 365224441959943336}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7106387826408514556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189980434977739222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
+--- !u!114 &365224441959943336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8189980434977739222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 0
+    Name: Move
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack1
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack2
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack3
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &8206070634150816031
 GameObject:
   m_ObjectHideFlags: 0
