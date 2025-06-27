@@ -10,14 +10,22 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
     private Vector3 _receivedPosition = Vector3.zero;
     private Quaternion _receivedRotation = Quaternion.identity;
+
+    private MinimapCamera _minimapCamera;
+
     protected override void Awake()
     {
         base.Awake();
+        _characterController = GetComponent<CharacterController>();
+        _minimapCamera = FindFirstObjectByType<MinimapCamera>();
+        if (_minimapCamera != null && PhotonView.IsMine)
+        {
+            _minimapCamera.SetTarget(transform);
+        }
     }
 
     private void Start()
     {
-        _characterController = GetComponent<CharacterController>();
     }
 
     protected override void Update()
