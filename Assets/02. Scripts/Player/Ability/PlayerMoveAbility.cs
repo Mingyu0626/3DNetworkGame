@@ -37,8 +37,7 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
             transform.position = Vector3.Lerp(transform.position, _receivedPosition, Time.deltaTime * 20f);
             transform.rotation = Quaternion.Slerp(transform.rotation, _receivedRotation, Time.deltaTime * 20f);
         }
-        // Jump();
-        Movement();
+        Move();
         Run();
     }
 
@@ -62,7 +61,7 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
         }
     }
 
-    private void Movement()
+    private void Move()
     {
         // 목표: 키보드 [W], [A], [S], [D] 키를 누르면 캐릭터를 그 방향으로 이동시키고 싶다.
         float h = Input.GetAxisRaw("Horizontal");
@@ -115,23 +114,25 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
         {
             return;
         }
-
-        if (Input.GetKey(KeyCode.LeftShift) && CharacterController.isGrounded)
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             if (0f < Owner.Stat.CurrentStamina)
             {
+                Animator.SetBool("Run", true);
                 Owner.Stat.CurrentMoveSpeed = Owner.Stat.RunSpeed;
                 Owner.Stat.CurrentStamina -= Owner.Stat.RunStaminaCostPerSecond * Time.deltaTime;
                 playerStaminaAbility.IsUsingStamina = true;
             }
             else
             {
+                Animator.SetBool("Run", false);
                 Owner.Stat.CurrentMoveSpeed = Owner.Stat.MoveSpeed;
                 playerStaminaAbility.IsUsingStamina = false;
             }
         }
         else
         {
+            Animator.SetBool("Run", false);
             Owner.Stat.CurrentMoveSpeed = Owner.Stat.MoveSpeed;
             playerStaminaAbility.IsUsingStamina = false;
         }
