@@ -14,11 +14,6 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
     protected override void Awake()
     {
         base.Awake();
-        _minimapCamera = FindFirstObjectByType<MinimapCamera>();
-        if (_minimapCamera != null && PhotonView.IsMine)
-        {
-            _minimapCamera.SetTarget(transform);
-        }
     }
 
     private void Start()
