@@ -22,10 +22,13 @@ public class PlayerAttackAbility : PlayerAbility
     private void Attack()
     {
         AttackTimer += Time.deltaTime;
-        if (Input.GetMouseButton(0) && (1f / Owner.Stat.AttackSpeed) <= AttackTimer)
+        if (Input.GetMouseButton(0) && (1f / Owner.Stat.AttackSpeed) <= AttackTimer &&
+            Owner.Stat.AttackStaminaCost < Owner.Stat.CurrentStamina)
         {
             AttackTimer = 0f;
             Animator.SetTrigger($"Attack{Random.Range(1, 4)}");
+
+            Owner.Stat.CurrentStamina -= Owner.Stat.AttackStaminaCost;
         }
     }
 }

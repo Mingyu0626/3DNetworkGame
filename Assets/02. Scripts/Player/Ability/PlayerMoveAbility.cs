@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class PlayerMoveAbility : PlayerAbility, IPunObservable
 {
-    private CharacterController _characterController;
-
     // 누적될 속력 변수
     private float _yVelocity = 0f;
 
@@ -16,7 +14,6 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
     protected override void Awake()
     {
         base.Awake();
-        _characterController = GetComponent<CharacterController>();
         _minimapCamera = FindFirstObjectByType<MinimapCamera>();
         if (_minimapCamera != null && PhotonView.IsMine)
         {
@@ -31,17 +28,18 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
     protected override void Update()
     {
         base.Update();
+    }
+
+    protected override void DoAbility()
+    {
         if (!PhotonView.IsMine)
         {
             transform.position = Vector3.Lerp(transform.position, _receivedPosition, Time.deltaTime * 20f);
             transform.rotation = Quaternion.Slerp(transform.rotation, _receivedRotation, Time.deltaTime * 20f);
         }
-    }
-
-    protected override void DoAbility()
-    {
-        Jump();
+        // Jump();
         Movement();
+        Run();
     }
 
     // 데이터 동기화를 위한 데이터 전송 및 수신 기능
@@ -92,7 +90,7 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
         // 3. 이동 속도에 따라 그 방향으로 이동하기
         // 캐릭터의 위치 = 현재 위치 + 속도  * 시간
-        _characterController.Move(dir * Owner.Stat.MoveSpeed * Time.deltaTime);
+        CharacterController.Move(dir * Owner.Stat.CurrentMoveSpeed * Time.deltaTime);
     }
 
     private void ApplyGravity()
@@ -102,9 +100,40 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && CharacterController.isGrounded &&
+            Owner.Stat.JumpStaminaCost < Owner.Stat.CurrentStamina)
         {
             _yVelocity = Owner.Stat.JumpPower;
+            Owner.Stat.CurrentStamina -= Owner.Stat.JumpStaminaCost;
+        }
+    }
+
+    private void Run()
+    {
+        var playerStaminaAbility = Owner.GetAbility<PlayerStaminaAbility>();
+        if (Owner == null || Owner.Stat == null || CharacterController == null)
+        {
+            return;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && CharacterController.isGrounded)
+        {
+            if (0f < Owner.Stat.CurrentStamina)
+            {
+                Owner.Stat.CurrentMoveSpeed = Owner.Stat.RunSpeed;
+                Owner.Stat.CurrentStamina -= Owner.Stat.RunStaminaCostPerSecond * Time.deltaTime;
+                playerStaminaAbility.IsUsingStamina = true;
+            }
+            else
+            {
+                Owner.Stat.CurrentMoveSpeed = Owner.Stat.MoveSpeed;
+                playerStaminaAbility.IsUsingStamina = false;
+            }
+        }
+        else
+        {
+            Owner.Stat.CurrentMoveSpeed = Owner.Stat.MoveSpeed;
+            playerStaminaAbility.IsUsingStamina = false;
         }
     }
 }

@@ -7,6 +7,18 @@ public class Player : MonoBehaviour
     public PlayerStat Stat;
     private Dictionary<Type, PlayerAbility> _abilitiesCache = new();
 
+    private void Awake()
+    {
+        if (Stat == null)
+        {
+            Stat = new PlayerStat();
+        }
+        // PlayerStat 초기화
+        Stat.CurrentHealthPoint = Stat.MaxHealthPoint;
+        Stat.CurrentStamina = Stat.MaxStamina;
+        Stat.CurrentMoveSpeed = Stat.MoveSpeed;
+    }
+
     public T GetAbility<T>() where T : PlayerAbility
     {
         var type = typeof(T);

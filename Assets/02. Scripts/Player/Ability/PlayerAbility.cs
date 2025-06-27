@@ -6,6 +6,10 @@ public abstract class PlayerAbility : MonoBehaviour
     private Player _owner;
     protected Player Owner => _owner;
 
+    private CharacterController _characterController;
+
+    protected CharacterController CharacterController => _characterController;
+
     private Animator _animator;
     protected Animator Animator => _animator;
 
@@ -15,6 +19,7 @@ public abstract class PlayerAbility : MonoBehaviour
     protected virtual void Awake()
     {
         _owner = GetComponent<Player>();
+        _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
         _photonView = GetComponent<PhotonView>();
     }
