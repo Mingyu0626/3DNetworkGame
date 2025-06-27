@@ -3,10 +3,10 @@ using UnityEngine;
 public class PlayerAbility : MonoBehaviour
 {
     private Player _owner;
-    public Player Owner => _owner;
+    protected Player Owner => _owner;
 
     private Animator _animator;
-    public Animator Animator => _animator;
+    protected Animator Animator => _animator;
 
     protected virtual void Awake()
     {
