@@ -10,7 +10,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
     //  Major, Minor, Patch
     // <전체를 뒤엎을 변화>,<기능 수정, 기능 추가>,<버그, 내부 적 코드 보완>
 
-    private string _nickname = "MingyuKatsu";
+    private string _nickname = $"MingyuKatsu_{Random.Range(0, 100)}";
 
     private void Start()
     {
