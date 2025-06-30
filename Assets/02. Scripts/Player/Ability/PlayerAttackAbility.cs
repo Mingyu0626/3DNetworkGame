@@ -36,6 +36,11 @@ public class PlayerAttackAbility : PlayerAbility
     private void Attack()
     {
         AttackTimer += Time.deltaTime;
+        if (InputManager.Instance.IsInputBlocked)
+        {
+            return;
+        }
+
         if (Input.GetMouseButton(0) && (1f / Owner.Stat.AttackSpeed) <= AttackTimer &&
             Owner.Stat.AttackStaminaCost < Owner.Stat.CurrentStamina)
         {
@@ -76,6 +81,6 @@ public class PlayerAttackAbility : PlayerAbility
         }
         DeActiveCollider();
         PhotonView otherPhotonView = other.gameObject.GetComponent<PhotonView>();
-        otherPhotonView.RPC(nameof(Player.Damaged), RpcTarget.AllBuffered, Owner.Stat.Damage);
+        otherPhotonView.RPC(nameof(Player.Damaged), RpcTarget.All, Owner.Stat.Damage);
     }
 }

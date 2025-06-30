@@ -11,7 +11,6 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"OnTriggerEnter 호출, other : {other.name}");
         if (other.transform == _playerAttackAbility.transform)
         {
             return;

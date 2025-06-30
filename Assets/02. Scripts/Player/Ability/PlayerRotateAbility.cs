@@ -38,6 +38,10 @@ public class PlayerRotateAbility : PlayerAbility
 
     private void Rotate()
     {
+        if (InputManager.Instance.IsInputBlocked)
+        {
+            return;
+        }
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 

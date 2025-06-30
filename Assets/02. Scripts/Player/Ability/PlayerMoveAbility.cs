@@ -60,6 +60,10 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
     private void Move()
     {
+        if (InputManager.Instance.IsInputBlocked)
+        {
+            return;
+        }
         // 목표: 키보드 [W], [A], [S], [D] 키를 누르면 캐릭터를 그 방향으로 이동시키고 싶다.
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
