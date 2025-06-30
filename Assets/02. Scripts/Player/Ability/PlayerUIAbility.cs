@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class PlayerNicknameAbility : PlayerAbility
+public class PlayerUIAbility : PlayerAbility
 {
     [SerializeField]
     private TextMeshProUGUI _nicknameTextUI;
@@ -35,10 +35,13 @@ public class PlayerNicknameAbility : PlayerAbility
     protected override void Update()
     {
         base.Update();
-        DoAbility();
     }
 
     protected override void DoAbility()
+    {
+    }
+
+    public void Refresh()
     {
         _playerHealthPointBarOnPlayer.value = Owner.Stat.CurrentHealthPoint;
     }

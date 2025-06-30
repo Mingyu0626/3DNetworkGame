@@ -47,6 +47,6 @@ public class Player : MonoBehaviour, IDamaged
     public void Damaged(float damage)
     {
         Stat.CurrentHealthPoint -= damage;
-        Debug.Log($"남은 체력 : {Stat.CurrentHealthPoint}");
+        GetAbility<PlayerUIAbility>().Refresh();
     }
 }
