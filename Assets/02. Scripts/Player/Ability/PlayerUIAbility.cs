@@ -35,10 +35,12 @@ public class PlayerUIAbility : PlayerAbility
     protected override void Update()
     {
         base.Update();
+        DoAbility();
     }
 
     protected override void DoAbility()
     {
+        _playerHealthPointBarOnPlayer.value = Owner.Stat.CurrentHealthPoint;
     }
 
     public void Refresh()

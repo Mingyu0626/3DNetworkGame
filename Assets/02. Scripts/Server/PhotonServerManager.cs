@@ -12,6 +12,9 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
 
     private string _nickname = "MingyuKatsu";
 
+    [SerializeField]
+    private List<Transform> _randomSpawnPositions = new List<Transform>();
+
     private void Start()
     {
         PhotonNetwork.SendRate = 60;
@@ -69,9 +72,14 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
             Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
         }
 
+        InstantiatePlayer();
+    }
+
+    public void InstantiatePlayer()
+    {
         // 방에 입장했을 때, 플레이어를 생성한다.
         // 포톤에서는 게임 오브젝트 생성 후, 포톤 서버에 등록까지 해야한다.
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player", _randomSpawnPositions[Random.Range(0, _randomSpawnPositions.Count)].position, Quaternion.identity);
     }
 
 
