@@ -42,7 +42,6 @@ public class PlayerUIAbility : PlayerAbility, IPunObservable
     {
     }
 
-    [PunRPC]
     public void Refresh()
     {
         _playerHealthPointBarOnPlayer.value = Owner.Stat.CurrentHealthPoint;
