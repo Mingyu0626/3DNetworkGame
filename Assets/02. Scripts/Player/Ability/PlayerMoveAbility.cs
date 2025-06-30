@@ -9,11 +9,13 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
     private Vector3 _receivedPosition = Vector3.zero;
     private Quaternion _receivedRotation = Quaternion.identity;
 
+    private PlayerStaminaAbility _playerStaminaAbility;
     private MinimapCamera _minimapCamera;
 
     protected override void Awake()
     {
         base.Awake();
+        _playerStaminaAbility = Owner.GetAbility<PlayerStaminaAbility>();
     }
 
     private void Start()
@@ -104,7 +106,6 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
     private void Run()
     {
-        var playerStaminaAbility = Owner.GetAbility<PlayerStaminaAbility>();
         if (Owner == null || Owner.Stat == null || CharacterController == null)
         {
             return;
@@ -116,20 +117,20 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
                 Animator.SetBool("Run", true);
                 Owner.Stat.CurrentMoveSpeed = Owner.Stat.RunSpeed;
                 Owner.Stat.CurrentStamina -= Owner.Stat.RunStaminaCostPerSecond * Time.deltaTime;
-                playerStaminaAbility.IsUsingStamina = true;
+                _playerStaminaAbility.IsUsingStamina = true;
             }
             else
             {
                 Animator.SetBool("Run", false);
                 Owner.Stat.CurrentMoveSpeed = Owner.Stat.MoveSpeed;
-                playerStaminaAbility.IsUsingStamina = false;
+                _playerStaminaAbility.IsUsingStamina = false;
             }
         }
         else
         {
             Animator.SetBool("Run", false);
             Owner.Stat.CurrentMoveSpeed = Owner.Stat.MoveSpeed;
-            playerStaminaAbility.IsUsingStamina = false;
+            _playerStaminaAbility.IsUsingStamina = false;
         }
     }
 }
