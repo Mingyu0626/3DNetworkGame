@@ -1,8 +1,9 @@
+using Photon.Pun;
 using TMPro;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerUIAbility : PlayerAbility
+public class PlayerUIAbility : PlayerAbility, IPunObservable
 {
     [SerializeField]
     private TextMeshProUGUI _nicknameTextUI;
@@ -35,16 +36,32 @@ public class PlayerUIAbility : PlayerAbility
     protected override void Update()
     {
         base.Update();
-        DoAbility();
     }
 
     protected override void DoAbility()
     {
-        _playerHealthPointBarOnPlayer.value = Owner.Stat.CurrentHealthPoint;
     }
 
+    [PunRPC]
     public void Refresh()
     {
         _playerHealthPointBarOnPlayer.value = Owner.Stat.CurrentHealthPoint;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 데이터를 전송하는 상황 -> 데이터를 보내주면 되고
+        if (stream.IsWriting)
+        {
+            stream.SendNext(Owner.Stat.CurrentHealthPoint);
+            Refresh();
+        }
+
+        // 데이터를 수신하는 상황 -> 받은 데이터를 세팅하면 된다.
+        else if (stream.IsReading)
+        {
+            Owner.Stat.CurrentHealthPoint = (float)stream.ReceiveNext();
+            Refresh();
+        }
     }
 }
