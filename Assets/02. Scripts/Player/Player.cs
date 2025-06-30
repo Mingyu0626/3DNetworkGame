@@ -77,20 +77,17 @@ public class Player : MonoBehaviour, IDamaged
 
         yield return _deathTimer;
 
-        if (_photonView.IsMine)
-        {
-            Vector3 spawnPosition = PlayerSpawnManager.Instance.GetRandomSpawnPosition();
-            _photonView.RPC(nameof(Respawn), RpcTarget.All, spawnPosition);
-        }
         _characterController.enabled = true;
         _photonView.RPC(nameof(PlayRespawnAnimation), RpcTarget.All);
-
+        Respawn(PlayerSpawnManager.Instance.GetRandomSpawnPosition());
     }
 
-    [PunRPC]
     private void Respawn(Vector3 spawnPosition)
     {
-        transform.position = spawnPosition;
+        if (_photonView.IsMine)
+        {
+            transform.position = spawnPosition;
+        }
         Stat.CurrentHealthPoint = Stat.MaxHealthPoint;
         Stat.CurrentStamina = Stat.MaxStamina;
         Stat.CurrentMoveSpeed = Stat.MoveSpeed;
