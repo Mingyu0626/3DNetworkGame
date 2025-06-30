@@ -36,7 +36,7 @@ public class PlayerAttackAbility : PlayerAbility
     private void Attack()
     {
         AttackTimer += Time.deltaTime;
-        if (InputManager.Instance.IsInputBlocked)
+        if (Owner.PlayerState == EPlayerState.Death)
         {
             return;
         }

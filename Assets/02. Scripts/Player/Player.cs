@@ -10,7 +10,10 @@ public class Player : MonoBehaviour, IDamaged
     public PlayerStat Stat;
     private Dictionary<Type, PlayerAbility> _abilitiesCache = new();
     private Animator _animator;
+    private CharacterController _characterController;
     private PhotonView _photonView;
+    private EPlayerState _state;
+    public EPlayerState PlayerState => _state;
 
     private WaitForSeconds _deathTimer = new WaitForSeconds(5f);
 
@@ -24,8 +27,10 @@ public class Player : MonoBehaviour, IDamaged
         Stat.CurrentHealthPoint = Stat.MaxHealthPoint;
         Stat.CurrentStamina = Stat.MaxStamina;
         Stat.CurrentMoveSpeed = Stat.MoveSpeed;
+        _state = EPlayerState.Live;
 
         _animator = GetComponent<Animator>();
+        _characterController = GetComponent<CharacterController>();
         _photonView = GetComponent<PhotonView>();
     }
 
@@ -60,42 +65,47 @@ public class Player : MonoBehaviour, IDamaged
 
         if (Stat.CurrentHealthPoint == 0)
         {
-            _photonView.RPC(nameof(Dead), RpcTarget.All);
+            _state = EPlayerState.Death;
+            StartCoroutine(Death_Coroutine());
         }
     }
 
-    [PunRPC]
-    public void Dead()
+    private IEnumerator Death_Coroutine()
     {
-        if (_photonView.IsMine)
-        {
-            InputManager.Instance.IsInputBlocked = true;
-        }
-        _animator.SetTrigger("Die");
-        StartCoroutine(DeathTimerCoroutine());
-    }
-    private IEnumerator DeathTimerCoroutine()
-    {
+        _characterController.enabled = false;
+        _photonView.RPC(nameof(PlayDeathAnimation), RpcTarget.All);
+
         yield return _deathTimer;
+
         if (_photonView.IsMine)
         {
             Vector3 spawnPosition = PlayerSpawnManager.Instance.GetRandomSpawnPosition();
             _photonView.RPC(nameof(Respawn), RpcTarget.All, spawnPosition);
         }
+        _characterController.enabled = true;
+        _photonView.RPC(nameof(PlayRespawnAnimation), RpcTarget.All);
+
     }
 
     [PunRPC]
     private void Respawn(Vector3 spawnPosition)
     {
-        if (_photonView.IsMine)
-        {
-            InputManager.Instance.IsInputBlocked = false;
-        }
-        _animator.SetTrigger("Respawn");
         transform.position = spawnPosition;
         Stat.CurrentHealthPoint = Stat.MaxHealthPoint;
         Stat.CurrentStamina = Stat.MaxStamina;
         Stat.CurrentMoveSpeed = Stat.MoveSpeed;
-        // GetAbility<PlayerUIAbility>().Refresh();
+        _state = EPlayerState.Live;
+    }
+
+    [PunRPC]
+    private void PlayDeathAnimation()
+    {
+        _animator.SetTrigger($"Die");
+    }
+
+    [PunRPC]
+    private void PlayRespawnAnimation()
+    {
+        _animator.SetTrigger($"Respawn");
     }
 }

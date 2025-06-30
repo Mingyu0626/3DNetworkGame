@@ -60,7 +60,7 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
     private void Move()
     {
-        if (InputManager.Instance.IsInputBlocked)
+        if (Owner.PlayerState == EPlayerState.Death)
         {
             return;
         }

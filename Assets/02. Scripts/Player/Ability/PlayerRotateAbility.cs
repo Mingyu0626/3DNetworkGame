@@ -38,7 +38,7 @@ public class PlayerRotateAbility : PlayerAbility
 
     private void Rotate()
     {
-        if (InputManager.Instance.IsInputBlocked)
+        if (Owner.PlayerState == EPlayerState.Death)
         {
             return;
         }
