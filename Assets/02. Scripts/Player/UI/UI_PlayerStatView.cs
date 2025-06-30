@@ -28,8 +28,6 @@ public class UI_PlayerStatView : MonoBehaviour
 
     public void SetSliderPlayerStamina(float stamina)
     {
-
-
         if (!ReferenceEquals(_playerStaminaBar, null))
         {
             _playerStaminaBar.value = stamina;
@@ -37,8 +35,6 @@ public class UI_PlayerStatView : MonoBehaviour
     }
     public void SetSliderPlayerHealthPoint(float healthPoint)
     {
-
-
         if (!ReferenceEquals(_playerHealthPointBar, null))
         {
             _playerHealthPointBar.value = healthPoint;
