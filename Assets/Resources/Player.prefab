@@ -2886,6 +2886,7 @@ MonoBehaviour:
     YRotationMin: -40
     AttackSpeed: 1.2
     AttackStaminaCost: 20
+    Damage: 20
     MaxStamina: 100
     StaminaRecoveryForSecond: 10
 --- !u!114 &3046529163146984940
@@ -2925,6 +2926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9cd825c4bb8a54fa91c63f7f1b3c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponCollider: {fileID: 5941452262619643829}
 --- !u!114 &5908093558896746550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3403,11 +3405,24 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5610884078883986163, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+      propertyPath: m_TagString
+      value: Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934265183272595344, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+--- !u!65 &5941452262619643829 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 8934265183272595344, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+  m_PrefabInstance: {fileID: 2992823937558646821}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8007022423781019756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5086268201243115593, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}

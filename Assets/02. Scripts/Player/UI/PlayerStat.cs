@@ -39,6 +39,7 @@ public class PlayerStat
     [Tooltip("초당 공격 횟수")]
     public float AttackSpeed = 1.2f;
     public float AttackStaminaCost;
+    public float Damage;
 
     [Header("Stamina")]
     public float MaxStamina;

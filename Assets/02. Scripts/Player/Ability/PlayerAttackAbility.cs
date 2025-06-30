@@ -5,6 +5,8 @@ public class PlayerAttackAbility : PlayerAbility
 {
     private float AttackTimer = 0f;
 
+    public Collider WeaponCollider;
+
     protected override void Awake()
     {
         base.Awake();
@@ -12,7 +14,7 @@ public class PlayerAttackAbility : PlayerAbility
 
     private void Start()
     {
- 
+        DeActiveCollider();
     }
 
     // 위치 및 회전처럼 상시 확인이 필요한 데이터 동기화 : IPunObservable(OnPhotonSerializeView)
@@ -45,10 +47,35 @@ public class PlayerAttackAbility : PlayerAbility
         }
     }
 
+    public void ActiveCollider()
+    {
+        WeaponCollider.enabled = true;
+    }
+
+    public void DeActiveCollider()
+    {
+        WeaponCollider.enabled = false;
+    }
+
     // RPC로 호출할 메서드는 반드시 [PunRPC] 어트리뷰트를 메서드 앞에 명시해줘야 한다.
     [PunRPC]
     private void PlayAttackAnimation(int randomNumber)
     {
         Animator.SetTrigger($"Attack{randomNumber}");
+    }
+
+    public void Hit(Collider other)
+    {
+        if (!PhotonView.IsMine)
+        {
+            return;
+        }
+        if (other.GetComponent<IDamaged>() == null)
+        {
+            return;
+        }
+        DeActiveCollider();
+        PhotonView otherPhotonView = other.gameObject.GetComponent<PhotonView>();
+        otherPhotonView.RPC("Damaged", RpcTarget.All, Owner.Stat.Damage);
     }
 }

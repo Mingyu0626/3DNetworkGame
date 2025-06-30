@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamaged
 {
     public PlayerStat Stat;
     private Dictionary<Type, PlayerAbility> _abilitiesCache = new();
@@ -40,5 +41,12 @@ public class Player : MonoBehaviour
         }
 
         throw new Exception($"어빌리티 {type.Name}을 {gameObject.name}에서 찾을 수 없습니다.");
+    }
+
+    [PunRPC]
+    public void Damaged(float damage)
+    {
+        Stat.CurrentHealthPoint -= damage;
+        Debug.Log($"남은 체력 : {Stat.CurrentHealthPoint}");
     }
 }
