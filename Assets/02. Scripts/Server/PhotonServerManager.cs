@@ -55,7 +55,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-    // 룸에 입장한 후 호출되는 콜백 함수
+    // "내가" 룸에 입장한 후 호출되는 콜백 함수
     public override void OnJoinedRoom()
     {
         Debug.Log("룸 입장에 성공했습니다.");
@@ -68,15 +68,6 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         {
             Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
         }
-
-        InstantiatePlayer();
-    }
-
-    public void InstantiatePlayer()
-    {
-        // 방에 입장했을 때, 플레이어를 생성한다.
-        // 포톤에서는 게임 오브젝트 생성 후, 포톤 서버에 등록까지 해야한다.
-        PhotonNetwork.Instantiate("Player", PlayerSpawnManager.Instance.GetRandomSpawnPosition(), Quaternion.identity);
     }
 
 
@@ -92,7 +83,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         roomOptions.IsVisible = true;  // 로비에서 룸 목록에 노출시킬지 여부
 
         // 룸 생성
-        PhotonNetwork.CreateRoom("test", roomOptions);
+        PhotonNetwork.CreateRoom("Test Room", roomOptions);
         // 룸 입장 또는 생성
         // PhotonNetwork.JoinOrCreateRoom("test", roomOptions, TypedLobby.Default);
     }
