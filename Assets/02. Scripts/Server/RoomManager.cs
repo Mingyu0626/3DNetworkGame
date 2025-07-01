@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using System;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public Room Room => _room;
 
     public event Action OnRoomDataChanged;
+    public event Action<string> OnRoomLogChanged;
+
+    public TextMeshProUGUI LogTextUI;
+    private string _log;
 
     private void Awake()
     {
@@ -23,19 +28,26 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         GeneratePlayer();
         SetRoom();
+        _log = $"\n<b><color=green>I</color></b> <color=blue>joined!</color>";
         OnRoomDataChanged?.Invoke();
+        OnRoomLogChanged?.Invoke(_log);
+
     }
 
     // "다른 플레이어가" 방에 입장하면 자동으로 호출되는 메서드
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
+        _log = $"\n<b><color=green>{newPlayer.NickName}</color></b> <color=blue>joined!</color>";
         OnRoomDataChanged?.Invoke();
+        OnRoomLogChanged?.Invoke(_log);
     }
 
     // "다른 플레이어가" 방에서 나가면 자동으로 호출되는 메서드
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
+        _log = $"\n<b><color=green>{otherPlayer.NickName}</color></b> <color=blue>left.</color>";
         OnRoomDataChanged?.Invoke();
+        OnRoomLogChanged?.Invoke(_log);
     }
 
     public void GeneratePlayer()
@@ -53,6 +65,4 @@ public class RoomManager : MonoBehaviourPunCallbacks
         Debug.Log(_room.PlayerCount);
         Debug.Log(_room.MaxPlayers);
     }
-
-    
 }
