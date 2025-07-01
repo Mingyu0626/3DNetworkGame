@@ -81,6 +81,6 @@ public class PlayerAttackAbility : PlayerAbility
         }
         DeActiveCollider();
         PhotonView otherPhotonView = other.gameObject.GetComponent<PhotonView>();
-        otherPhotonView.RPC(nameof(Player.Damaged), RpcTarget.All, Owner.Stat.Damage);
+        otherPhotonView.RPC(nameof(Player.Damaged), RpcTarget.All, Owner.Stat.Damage, Owner.PhotonView.Owner.ActorNumber);
     }
 }

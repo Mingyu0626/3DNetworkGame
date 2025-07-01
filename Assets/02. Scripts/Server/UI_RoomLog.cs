@@ -10,6 +10,7 @@ public class UI_RoomLog : MonoBehaviour
     {
         RoomManager.Instance.OnPlayerEntered += PlayerEnterLog;
         RoomManager.Instance.OnPlayerExit += PlayerExitLog;
+        RoomManager.Instance.OnPlayerDead += PlayerDeathLog;
         Refresh();
     }
 
@@ -29,6 +30,13 @@ public class UI_RoomLog : MonoBehaviour
     {
         _logMessages +=
             $"\n<b><color=green>{playerName}</color></b> <color=blue>exit.</color>";
+        Refresh();
+    }
+
+    public void PlayerDeathLog(string deadPlayerName, string killerName)
+    {
+        _logMessages +=
+            $"\n<b><color=red>{killerName}</color></b> killed <color=purple>{deadPlayerName}!</color>";
         Refresh();
     }
 }

@@ -15,6 +15,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public event Action OnRoomDataChanged;
     public event Action<string> OnPlayerEntered;
     public event Action<string> OnPlayerExit;
+    public event Action<string, string> OnPlayerDead;
 
 
     public TextMeshProUGUI LogTextUI;
@@ -61,5 +62,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
         Debug.Log(_room.Name);
         Debug.Log(_room.PlayerCount);
         Debug.Log(_room.MaxPlayers);
+    }
+
+    public void OnPlayerDeath(int actorNumber, int otherActorNumber)
+    {
+        // actorNumber가 otherActorNumber에 의해 죽었다.
+        string deadPlayerName
+            = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).NickName;
+        string killerPlayerName
+            = PhotonNetwork.CurrentRoom.GetPlayer(otherActorNumber).NickName;
+        OnPlayerDead?.Invoke
+            ($"{deadPlayerName}_{actorNumber}", $"{killerPlayerName}_{otherActorNumber}");
     }
 }

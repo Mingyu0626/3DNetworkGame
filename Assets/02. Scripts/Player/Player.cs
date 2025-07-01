@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IDamaged
     private PhotonView _photonView;
     private EPlayerState _state;
     public EPlayerState PlayerState => _state;
+    public PhotonView PhotonView => _photonView;
 
     private WaitForSeconds _deathTimer = new WaitForSeconds(5f);
 
@@ -58,13 +59,15 @@ public class Player : MonoBehaviour, IDamaged
     }
 
     [PunRPC]
-    public void Damaged(float damage)
+    public void Damaged(float damage, int actorNumber)
     {
         Stat.CurrentHealthPoint -= damage;
-        if (Stat.CurrentHealthPoint == 0)
+        if (Stat.CurrentHealthPoint == 0 )
         {
             _state = EPlayerState.Death;
             StartCoroutine(Death_Coroutine());
+
+            RoomManager.Instance.OnPlayerDeath(PhotonView.Owner.ActorNumber, actorNumber);
         }
         else
         {
