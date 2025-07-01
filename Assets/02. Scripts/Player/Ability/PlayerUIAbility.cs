@@ -10,6 +10,8 @@ public class PlayerUIAbility : PlayerAbility, IPunObservable
     [SerializeField]
     private Slider _playerHealthPointBarOnPlayer;
 
+    private float _receviedHeathPoint;
+
     protected override void Awake()
     {
         base.Awake();
@@ -36,6 +38,7 @@ public class PlayerUIAbility : PlayerAbility, IPunObservable
     protected override void Update()
     {
         base.Update();
+        Refresh();
     }
 
     protected override void DoAbility()
@@ -44,7 +47,15 @@ public class PlayerUIAbility : PlayerAbility, IPunObservable
 
     public void Refresh()
     {
-        _playerHealthPointBarOnPlayer.value = Owner.Stat.CurrentHealthPoint;
+        if (PhotonView.IsMine)
+        {
+            _playerHealthPointBarOnPlayer.value = Owner.Stat.CurrentHealthPoint;
+
+        }
+        else
+        {
+            _playerHealthPointBarOnPlayer.value = _receviedHeathPoint;
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -53,14 +64,12 @@ public class PlayerUIAbility : PlayerAbility, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(Owner.Stat.CurrentHealthPoint);
-            Refresh();
         }
 
         // 데이터를 수신하는 상황 -> 받은 데이터를 세팅하면 된다.
         else if (stream.IsReading)
         {
-            Owner.Stat.CurrentHealthPoint = (float)stream.ReceiveNext();
-            Refresh();
+            _receviedHeathPoint = (float)stream.ReceiveNext();
         }
     }
 }
