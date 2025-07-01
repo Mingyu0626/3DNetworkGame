@@ -10,6 +10,7 @@ public class UI_RoomLog : MonoBehaviour
     {
         RoomManager.Instance.OnPlayerEntered += PlayerEnterLog;
         RoomManager.Instance.OnPlayerExit += PlayerExitLog;
+        Refresh();
     }
 
     private void Refresh()
