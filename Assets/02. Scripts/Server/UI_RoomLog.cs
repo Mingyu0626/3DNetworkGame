@@ -8,12 +8,26 @@ public class UI_RoomLog : MonoBehaviour
 
     private void Start()
     {
-        RoomManager.Instance.OnRoomLogChanged += Refresh;
+        RoomManager.Instance.OnPlayerEntered += PlayerEnterLog;
+        RoomManager.Instance.OnPlayerExit += PlayerExitLog;
     }
 
-    private void Refresh(string log)
+    private void Refresh()
     {
-        _logMessages += log;
         LogTextUI.text = _logMessages;
+    }
+
+    public void PlayerEnterLog(string playerName)
+    {
+        _logMessages += 
+            $"\n<b><color=green>{playerName}</color></b> <color=blue>joined!</color>";
+        Refresh();
+    }
+
+    public void PlayerExitLog(string playerName)
+    {
+        _logMessages +=
+            $"\n<b><color=green>{playerName}</color></b> <color=blue>exit.</color>";
+        Refresh();
     }
 }
