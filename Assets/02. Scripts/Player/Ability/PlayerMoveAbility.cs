@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerMoveAbility : PlayerAbility, IPunObservable
+public class PlayerMoveAbility : PlayerAbility
 {
     // 누적될 속력 변수
     private float _yVelocity = 0f;
@@ -29,33 +29,8 @@ public class PlayerMoveAbility : PlayerAbility, IPunObservable
 
     protected override void DoAbility()
     {
-        if (!PhotonView.IsMine)
-        {
-            transform.position = Vector3.Lerp(transform.position, _receivedPosition, Time.deltaTime * 20f);
-            transform.rotation = Quaternion.Slerp(transform.rotation, _receivedRotation, Time.deltaTime * 20f);
-        }
         Move();
         Run();
-    }
-
-    // 데이터 동기화를 위한 데이터 전송 및 수신 기능
-    // stream : 서버에서 주고받을 데이터가 담겨있는 변수
-    // info : 송수신 성공/실패 여부에 대한 로그
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // 데이터를 전송하는 상황 -> 데이터를 보내주면 되고
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-
-        // 데이터를 수신하는 상황 -> 받은 데이터를 세팅하면 된다.
-        else if (stream.IsReading)
-        {
-            _receivedPosition = (Vector3)stream.ReceiveNext();
-            _receivedRotation = (Quaternion)stream.ReceiveNext();
-        }
     }
 
     private void Move()
