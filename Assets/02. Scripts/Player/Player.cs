@@ -61,12 +61,14 @@ public class Player : MonoBehaviour, IDamaged
     public void Damaged(float damage)
     {
         Stat.CurrentHealthPoint -= damage;
-        // GetAbility<PlayerUIAbility>().Refresh();
-
         if (Stat.CurrentHealthPoint == 0)
         {
             _state = EPlayerState.Death;
             StartCoroutine(Death_Coroutine());
+        }
+        else
+        {
+            GetAbility<PlayerShakingAbility>().Shake();
         }
     }
 
