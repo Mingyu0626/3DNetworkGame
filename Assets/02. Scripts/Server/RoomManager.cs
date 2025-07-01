@@ -37,14 +37,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         OnRoomDataChanged?.Invoke();
-        OnPlayerEntered?.Invoke(newPlayer.NickName);
+        OnPlayerEntered?.Invoke($"{newPlayer.NickName}_{newPlayer.ActorNumber}");
     }
 
     // "다른 플레이어가" 방에서 나가면 자동으로 호출되는 메서드
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         OnRoomDataChanged?.Invoke();
-        OnPlayerExit?.Invoke(otherPlayer.NickName);
+        OnPlayerExit?.Invoke($"{otherPlayer.NickName}_{otherPlayer.ActorNumber}");
     }
 
     public void GeneratePlayer()
