@@ -16,14 +16,4 @@ public class UI_RoomLog : MonoBehaviour
         _logMessages += log;
         LogTextUI.text = _logMessages;
     }
-
-    public void PlayerEnterLog(string playerName)
-    {
-        _logMessages += $"\n{playerName} joined!";
-    }
-
-    public void PlayerExitLog(string playerName)
-    {
-        _logMessages += $"\n{playerName} exit.";
-    }
 }
