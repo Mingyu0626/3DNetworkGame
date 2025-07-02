@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PhotonTransformView))]
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
-public abstract class ItemObject : MonoBehaviour
+public abstract class ItemObject : MonoBehaviourPun
 {
     [Header("아이템 타입")]
     public EItemType ItemType;
@@ -23,7 +23,6 @@ public abstract class ItemObject : MonoBehaviour
             }
         }
     }
-
 
     protected abstract void ApplyItem(Player player);
 

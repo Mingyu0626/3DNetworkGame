@@ -34,10 +34,12 @@ public class ItemObjectFactory : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("MasterClient의 Delete");
             Delete(viewID);
         }
         else
         {
+            Debug.Log("Client의 Delete");
             photonView.RPC(nameof(Delete), RpcTarget.MasterClient, viewID);
         }
     }
@@ -45,10 +47,11 @@ public class ItemObjectFactory : MonoBehaviourPun
     [PunRPC]
     private void Delete(int viewID)
     {
-        GameObject objectToDelete = PhotonView.Find(viewID).gameObject;
-        if (objectToDelete != null)
+        PhotonView photonView = PhotonView.Find(viewID);
+        if (photonView != null)
         {
-            PhotonNetwork.Destroy(objectToDelete);
+            Debug.Log($"{viewID}에 해당하는 go 발견, 삭제 진행");
+            PhotonNetwork.Destroy(photonView.gameObject);
         }
     }
 }
