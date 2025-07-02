@@ -2,7 +2,6 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IDamaged
@@ -15,6 +14,8 @@ public class Player : MonoBehaviour, IDamaged
     private EPlayerState _state;
     public EPlayerState PlayerState => _state;
     public PhotonView PhotonView => _photonView;
+
+    public int Score = 0;
 
     private WaitForSeconds _deathTimer = new WaitForSeconds(5f);
 
@@ -68,6 +69,11 @@ public class Player : MonoBehaviour, IDamaged
             StartCoroutine(Death_Coroutine());
 
             RoomManager.Instance.OnPlayerDeath(PhotonView.Owner.ActorNumber, actorNumber);
+
+            if (_photonView.IsMine)
+            {
+                MakeItems(UnityEngine.Random.Range(1, 4));
+            }
         }
         else
         {
@@ -109,5 +115,14 @@ public class Player : MonoBehaviour, IDamaged
     private void PlayRespawnAnimation()
     {
         _animator.SetTrigger($"Respawn");
+    }
+
+    private void MakeItems(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            PhotonNetwork.Instantiate("Item_Score", 
+                transform.position + new Vector3(0, 2, 0), Quaternion.identity, 0);
+        }
     }
 }
