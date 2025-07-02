@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviourPunCallbacks
@@ -30,6 +31,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         GeneratePlayer();
+        StartCoroutine(GenerateBoss());
         SetRoom();
         OnRoomDataChanged?.Invoke();
     }
@@ -53,7 +55,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
         // 방에 입장했을 때, 플레이어를 생성한다.
         // 포톤에서는 게임 오브젝트 생성 후, 포톤 서버에 등록까지 해야한다.
         PhotonNetwork.Instantiate("Player",
-            PlayerSpawnManager.Instance.GetRandomSpawnPosition(), Quaternion.identity);
+            SpawnPositionManager.Instance.GetRandomSpawnPosition(), Quaternion.identity);
+    }
+
+    private IEnumerator GenerateBoss()
+    {
+        yield return 5f;
+        // 방에 입장했을 때, 플레이어를 생성한다.
+        // 포톤에서는 게임 오브젝트 생성 후, 포톤 서버에 등록까지 해야한다.
+        PhotonNetwork.Instantiate("Boss_Bear",
+            SpawnPositionManager.Instance.GetRandomSpawnPosition(), Quaternion.identity);
     }
 
     private void SetRoom()

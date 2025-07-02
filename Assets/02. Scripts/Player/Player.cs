@@ -37,6 +37,8 @@ public class Player : MonoBehaviour, IDamaged
         _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
         _photonView = GetComponent<PhotonView>();
+
+        PlayerPositionManager.Instance.AddPlayerToList(this);
     }
 
     public T GetAbility<T>() where T : PlayerAbility
@@ -93,7 +95,7 @@ public class Player : MonoBehaviour, IDamaged
 
         _characterController.enabled = true;
         _photonView.RPC(nameof(PlayRespawnAnimation), RpcTarget.All);
-        Respawn(PlayerSpawnManager.Instance.GetRandomSpawnPosition());
+        Respawn(SpawnPositionManager.Instance.GetRandomSpawnPosition());
     }
 
     private void Respawn(Vector3 spawnPosition)

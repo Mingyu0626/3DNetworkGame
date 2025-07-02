@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawnManager : MonoBehaviourSingleton<PlayerSpawnManager>
+public class SpawnPositionManager : MonoBehaviourSingleton<SpawnPositionManager>
 {
     [SerializeField]
     private List<Transform> _randomSpawnPositions = new List<Transform>();
