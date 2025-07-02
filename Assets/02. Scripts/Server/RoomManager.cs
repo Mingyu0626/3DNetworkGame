@@ -80,8 +80,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
         // actorNumber가 otherActorNumber에 의해 죽었다.
         string deadPlayerName
             = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).NickName;
-        string killerPlayerName
-            = PhotonNetwork.CurrentRoom.GetPlayer(otherActorNumber).NickName;
+
+        string killerPlayerName;
+        if (otherActorNumber == -1)
+        {
+            killerPlayerName = "Bear";
+        }
+        else
+        {
+            killerPlayerName
+                = PhotonNetwork.CurrentRoom.GetPlayer(otherActorNumber).NickName;
+        }
         OnPlayerDead?.Invoke
             ($"{deadPlayerName}_{actorNumber}", $"{killerPlayerName}_{otherActorNumber}");
     }
