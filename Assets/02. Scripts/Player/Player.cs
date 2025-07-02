@@ -39,6 +39,7 @@ public class Player : MonoBehaviour, IDamaged
         _photonView = GetComponent<PhotonView>();
 
         PlayerPositionManager.Instance.AddPlayerToList(this);
+        ItemSpawner.Instance.StartSpawnCoroutine();
     }
 
     public T GetAbility<T>() where T : PlayerAbility

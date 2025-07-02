@@ -31,7 +31,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         GeneratePlayer();
-        StartCoroutine(GenerateBoss());
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(GenerateBoss());
+        }
         SetRoom();
         OnRoomDataChanged?.Invoke();
     }
