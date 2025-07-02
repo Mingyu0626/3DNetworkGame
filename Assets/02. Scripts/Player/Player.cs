@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonTransformView))]
+[RequireComponent(typeof(PhotonAnimatorView))]
 public class Player : MonoBehaviour, IDamaged
 {
     public PlayerStat Stat;
@@ -121,8 +124,12 @@ public class Player : MonoBehaviour, IDamaged
     {
         for (int i = 0; i < count; i++)
         {
-            PhotonNetwork.Instantiate("Item_Score", 
-                transform.position + new Vector3(0, 2, 0), Quaternion.identity, 0);
+            // 포톤의 네트워크 객체의 생성 주기
+            // Player : 플레이어가 생성하고, 플레이어가 나가면 자동 삭제(PhotonNetwork.Instantiate)
+            // Room : "방장만" 생성하고, 룸이 없어지면 삭제(PhotonNetwork.InstantiateRoomObject)
+
+            ItemObjectFactory.Instance.RequestCreate
+                (EItemType.Item_ScoreUp, transform.position + new Vector3(0f, 2f, 0f));
         }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum EItemType
 {
-    Score,
-    HealthPotion,
-    StaminaPotion,
+    Item_ScoreUp,
+    Item_HealthUp,
+    Item_StaminaUp,
 }

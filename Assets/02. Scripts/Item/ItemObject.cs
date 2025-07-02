@@ -1,6 +1,11 @@
 using Photon.Pun;
 using UnityEngine;
 
+
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonTransformView))]
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public abstract class ItemObject : MonoBehaviour
 {
     [Header("아이템 타입")]

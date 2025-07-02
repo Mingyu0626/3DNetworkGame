@@ -63,7 +63,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 0182e814e0408fe43b26cd6a3619c8d0, type: 3}
       propertyPath: m_Name
-      value: Item_Score
+      value: Item_ScoreUp
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0182e814e0408fe43b26cd6a3619c8d0, type: 3}
       propertyPath: m_RootOrder
