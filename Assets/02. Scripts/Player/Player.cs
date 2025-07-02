@@ -68,7 +68,7 @@ public class Player : MonoBehaviour, IDamaged
     public void Damaged(float damage, int actorNumber)
     {
         Stat.CurrentHealthPoint -= damage;
-        if (Stat.CurrentHealthPoint == 0 )
+        if (Stat.CurrentHealthPoint == 0)
         {
             _state = EPlayerState.Death;
             StartCoroutine(Death_Coroutine());

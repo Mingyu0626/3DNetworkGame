@@ -40,11 +40,30 @@ public class BossTraceState : IBossState
                 _bossController.Player.transform.position,
                 _bossController.Stat.MoveSpeed * Time.deltaTime
                 );
+            RotateTowardsPlayer();
         }
     }
 
     public void Exit()
     {
 
+    }
+
+    private void RotateTowardsPlayer()
+    {
+        Vector3 directionToPlayer = _bossController.Player.transform.position - _bossController.transform.position;
+        directionToPlayer.y = 0;
+
+        if (directionToPlayer == Vector3.zero)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+        _bossController.transform.rotation = Quaternion.Slerp(
+            _bossController.transform.rotation,
+            targetRotation,
+            _bossController.Stat.RotateSpeed * Time.deltaTime 
+        );
     }
 }

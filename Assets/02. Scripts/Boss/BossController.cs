@@ -1,5 +1,7 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,14 +21,14 @@ public class BossController : MonoBehaviour, IDamaged
     private Animator _animator;
     public Animator Animator { get => _animator; set => _animator = value; }
 
-    private NavMeshAgent _agent;
-    public NavMeshAgent Agent { get => _agent; set => _agent = value; }
-
     [Header("References")]
     private Player _player;
     public Player Player { get => _player; set => _player = value; }
 
     public BossStat Stat;
+
+    private List<Vector3> _patrolPositions = new List<Vector3>();
+    public List<Vector3> PatrolPositions => _patrolPositions;
 
 
     private void Awake()
@@ -46,7 +48,7 @@ public class BossController : MonoBehaviour, IDamaged
 
         _collider = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
+        SetPatrolPositions();
     }
 
     private void OnEnable()
@@ -80,6 +82,16 @@ public class BossController : MonoBehaviour, IDamaged
         else
         {
             _bossStateContext.ChangeState(_bossStateDict[EBossState.Damaged]);
+        }
+    }
+
+    private void SetPatrolPositions()
+    {
+        _patrolPositions.Clear();
+        GameObject[] patrolPoints = GameObject.FindGameObjectsWithTag("BossPatrolPosition");
+        foreach (GameObject point in patrolPoints)
+        {
+            _patrolPositions.Add(point.transform.position);
         }
     }
 }

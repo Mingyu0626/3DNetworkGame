@@ -16,6 +16,7 @@ public class BossAttackState : IBossState
     }
     public void Enter()
     {
+        Debug.Log("AttackState 진입");
         _attackCoroutine = AttackCoroutine();
         _bossController.StartCoroutineInBossState(_attackCoroutine);
     }
@@ -33,12 +34,12 @@ public class BossAttackState : IBossState
 
     public void Exit()
     {
+        Debug.Log("AttackState 탈출");
         if (!ReferenceEquals(_attackCoroutine, null))
         {
             _bossController.StopCoroutineInBossState(_attackCoroutine);
             _attackCoroutine = null;
         }
-
     }
 
     private IEnumerator AttackCoroutine()
@@ -51,12 +52,13 @@ public class BossAttackState : IBossState
             {
                 if (collider.TryGetComponent<IDamaged>(out IDamaged damaged))
                 {
+                    Debug.Log("피격된 Player의 Damaged 메서드 호출");
                     _bossController.Animator.SetTrigger("Attack");
                     damaged.Damaged(_bossController.Stat.Damage, -1);
                 }
                 else
                 {
-                    Debug.Log("Player is not in attack range");
+                    Debug.Log("피격된 Player가 없음");
                 }
             }
             yield return new WaitForSeconds(1f / _bossController.Stat.AttackSpeed);

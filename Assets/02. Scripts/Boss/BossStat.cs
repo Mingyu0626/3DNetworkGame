@@ -16,9 +16,9 @@ public class BossStat
         }
     }
 
-    [Header("Movement")]
+    [Header("Movement & Rotete")]
     public float MoveSpeed;
-    public float Gravity;
+    public float RotateSpeed;
 
     [Header("Trace")]
     public float ContextToPatrolTime;
