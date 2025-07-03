@@ -21,6 +21,9 @@ public class BossController : MonoBehaviour, IDamaged
     private Animator _animator;
     public Animator Animator { get => _animator; set => _animator = value; }
 
+    private NavMeshAgent _navMeshAgent;
+    public NavMeshAgent NavmeshAgent => _navMeshAgent;
+
     [Header("References")]
     private Player _player;
     public Player Player { get => _player; set => _player = value; }
@@ -48,6 +51,8 @@ public class BossController : MonoBehaviour, IDamaged
 
         _collider = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.speed = Stat.MoveSpeed;
         SetPatrolPositions();
     }
 

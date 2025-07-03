@@ -33,14 +33,15 @@ public class BossTraceState : IBossState
         else
         {
             _contextToPatrolTimer = 0f;
-            _bossController.transform.position
-                = Vector3.MoveTowards
-                (
-                    _bossController.transform.position,
-                _bossController.Player.transform.position,
-                _bossController.Stat.MoveSpeed * Time.deltaTime
-                );
-            RotateTowardsPlayer();
+            _bossController.NavmeshAgent.SetDestination(_bossController.Player.transform.position);
+            //_bossController.transform.position
+            //    = Vector3.MoveTowards
+            //    (
+            //        _bossController.transform.position,
+            //    _bossController.Player.transform.position,
+            //    _bossController.Stat.MoveSpeed * Time.deltaTime
+            //    );
+            // RotateTowardsPlayer();
         }
     }
 
