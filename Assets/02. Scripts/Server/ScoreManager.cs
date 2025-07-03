@@ -1,11 +1,13 @@
-using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+
+[RequireComponent(typeof(PhotonView))]
 public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     public static ScoreManager Instance { get; private set; }
@@ -16,11 +18,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public List<KeyValuePair<string, int>> SortedScoreList => _sortedScoreList;
 
     public int _killCount;
-    public int KillCount => _killCount;
 
     public event Action<List<KeyValuePair<string, int>>, string> OnDataChanged;
+    public event Action<int> OnScoreChanged;
 
-    // public List<UI_Score> UIScores;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
         if (IsMyNicknameInScoreList(out index, out myNickname))
         {
             OnDataChanged?.Invoke(_sortedScoreList, myNickname);
+            OnScoreChanged?.Invoke(GetMyScore());
         }
     }
 
@@ -69,7 +71,6 @@ public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
         nickname = myNickname;
         if (0 <= index)
         {
-            nickname = myNickname;
             return true;
         }
         return false;
@@ -82,11 +83,22 @@ public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
     }
 
-    public void AddScore(int addedScore)
+    [PunRPC]
+    public void IncreaseScore(int increasedScore)
     {
         Hashtable hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
         int currentScore = (int)hashtable["Score"];
-        currentScore += addedScore;
+        currentScore += increasedScore;
+        hashtable["Score"] = currentScore;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+    }
+
+    [PunRPC]
+    public void DecreaseScore(int decreasedScore)
+    {
+        Hashtable hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+        int currentScore = (int)hashtable["Score"];
+        currentScore -= decreasedScore;
         hashtable["Score"] = currentScore;
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
     }
@@ -94,16 +106,29 @@ public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public void AddKillCount()
     {
         _killCount++;
-        Hashtable hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
-        int currentScore = (int)hashtable["Score"];
-        currentScore += 5000;
-        hashtable["Score"] = currentScore;
-        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+        IncreaseScore(5000);
+    }
+
+    public void StealDeadPlayerScore(int deadActorNumber)
+    {
+        Debug.Log("StealDeadPlayerScore");
+        Photon.Realtime.Player deadPlayer = PhotonNetwork.CurrentRoom.GetPlayer(deadActorNumber);
+        int halfScore = GetPlayerScore(deadActorNumber) / 2;
+
+        IncreaseScore(halfScore);
+        photonView.RPC("DecreaseScore", deadPlayer, halfScore);
     }
 
     public int GetMyScore()
     {
         string myNickName = $"{PhotonNetwork.NickName}_{PhotonNetwork.LocalPlayer.ActorNumber}";
         return _scores[myNickName];
+    }
+
+    public int GetPlayerScore(int actorNumber)
+    {
+        Photon.Realtime.Player player = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+        string playerNickName = $"{player.NickName}_{player.ActorNumber}";
+        return _scores[playerNickName];
     }
 }

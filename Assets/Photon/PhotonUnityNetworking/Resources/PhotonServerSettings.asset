@@ -49,6 +49,8 @@ MonoBehaviour:
   - Create
   - Delete
   - OnKill
+  - DecreaseScore
+  - IncreaseScore
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

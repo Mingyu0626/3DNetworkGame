@@ -3238,7 +3238,7 @@ MonoBehaviour:
     Damage: 20
     MaxStamina: 100
     StaminaRecoveryForSecond: 10
-  Score: 0
+  Weapon: {fileID: 7229817629626485462}
 --- !u!114 &3046529163146984940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3793,6 +3793,11 @@ PrefabInstance:
 --- !u!65 &5941452262619643829 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 8934265183272595344, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
+  m_PrefabInstance: {fileID: 2992823937558646821}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7229817629626485462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5610884078883986163, guid: 9fbe61d1f4bc091439f25f985dd189a5, type: 3}
   m_PrefabInstance: {fileID: 2992823937558646821}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8007022423781019756 stripped
