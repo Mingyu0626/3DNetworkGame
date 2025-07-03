@@ -6,7 +6,7 @@ public class ItemSpawner : MonoBehaviour
 {
     public static ItemSpawner Instance { get; private set; }
 
-    public float SpawnSpeed;
+    public float Interval;
     public float RandomX;
     public float RandomZ;
     private WaitForSeconds _spawnDelayCache;
@@ -20,13 +20,8 @@ public class ItemSpawner : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("마스터 클라이언트이므로 코루틴 실행");
-            _spawnDelayCache = new WaitForSeconds(SpawnSpeed);
+            _spawnDelayCache = new WaitForSeconds(Interval);
             StartCoroutine(Spawn_Coroutine());
-        }
-        else
-        {
-            Debug.Log("마스터 클라이언트가 아니라고요?");
         }
     }
 
