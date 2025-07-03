@@ -17,10 +17,11 @@ public abstract class ItemObject : MonoBehaviourPun
         if (other.CompareTag("Player"))
         {
             Player player = other.GetComponent<Player>();
-            if (player != null)
+            if (!player.GetComponent<PhotonView>().IsMine)
             {
-                ApplyItem(player);
+                return;
             }
+            ApplyItem(player);
         }
     }
 

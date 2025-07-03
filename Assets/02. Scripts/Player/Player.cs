@@ -78,7 +78,7 @@ public class Player : MonoBehaviour, IDamaged
 
             if (_photonView.IsMine)
             {
-                MakeItems(UnityEngine.Random.Range(1, 4));
+                MakeRandomItems(UnityEngine.Random.Range(1, 4));
             }
         }
         else
@@ -123,16 +123,16 @@ public class Player : MonoBehaviour, IDamaged
         _animator.SetTrigger($"Respawn");
     }
 
-    private void MakeItems(int count)
+    private void MakeRandomItems(int count)
     {
         for (int i = 0; i < count; i++)
         {
             // 포톤의 네트워크 객체의 생성 주기
             // Player : 플레이어가 생성하고, 플레이어가 나가면 자동 삭제(PhotonNetwork.Instantiate)
             // Room : "방장만" 생성하고, 룸이 없어지면 삭제(PhotonNetwork.InstantiateRoomObject)
-
             ItemObjectFactory.Instance.RequestCreate
-                (EItemType.Item_ScoreUp, transform.position + new Vector3(0f, 2f, 0f));
+                ((EItemType)UnityEngine.Random.Range(0, (int)EItemType.Count), 
+                transform.position + new Vector3(0f, 2f, 0f));
         }
     }
 }
