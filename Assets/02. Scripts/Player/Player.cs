@@ -73,8 +73,11 @@ public class Player : MonoBehaviour, IDamaged
         {
             _state = EPlayerState.Death;
             StartCoroutine(Death_Coroutine());
-
             RoomManager.Instance.OnPlayerDeath(PhotonView.Owner.ActorNumber, actorNumber);
+
+            Photon.Realtime.Player lastHitPlayer = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+            // 나를 죽인 플레이어의 OnKill 함수 RPC 호출
+            _photonView.RPC("OnKill", lastHitPlayer);
 
             if (_photonView.IsMine)
             {
@@ -134,5 +137,16 @@ public class Player : MonoBehaviour, IDamaged
                 ((EItemType)UnityEngine.Random.Range(0, (int)EItemType.Count), 
                 transform.position + new Vector3(0f, 2f, 0f));
         }
+    }
+
+    [PunRPC]
+    public void OnKill()
+    {
+        ScoreManager.Instance.AddKillCount();
+    }
+
+    private void TryRaiseWeaponSize()
+    {
+
     }
 }

@@ -5,7 +5,7 @@ public class ItemScoreUp : ItemObject
 {
     protected override void ApplyItem(Player player)
     {
-        player.Score += Value;
+        ScoreManager.Instance.AddScore(Value);
         ItemObjectFactory.Instance.RequestDelete(photonView.ViewID);
     }
 }
