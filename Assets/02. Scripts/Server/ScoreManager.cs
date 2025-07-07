@@ -27,6 +27,17 @@ public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         Instance = this;
     }
+
+    private void Start()
+    {
+        // 방에 들어가면 '내 점수가 0이다' 라는 내용으로 
+        // 커스텀 프로퍼티를 초기화해준다.
+        if (PhotonNetwork.InRoom)
+        {
+            Refresh();
+        }
+    }
+
     public override void OnJoinedRoom()
     {
         Refresh();

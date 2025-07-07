@@ -12,6 +12,22 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
 
     private string _nickname = "MingyuKatsu";
 
+    private static PhotonServerManager _instance;
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         PhotonNetwork.SendRate = 60;
@@ -52,7 +68,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("로비 접속 완료!");
         Debug.Log(PhotonNetwork.InLobby);
-        PhotonNetwork.JoinRandomRoom();
+        // PhotonNetwork.JoinRandomRoom();
     }
 
     // "내가" 룸에 입장한 후 호출되는 콜백 함수
@@ -62,12 +78,17 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
         Debug.Log($"PhotonNetwork.InRoom = {PhotonNetwork.InRoom}");
         Debug.Log($"Player Count = {PhotonNetwork.CurrentRoom.PlayerCount}");
 
-        // 룸에 접속한 사용자 정보
-        Dictionary<int, Photon.Realtime.Player> roomPlayers = PhotonNetwork.CurrentRoom.Players;
-        foreach (KeyValuePair<int, Photon.Realtime.Player> player in roomPlayers)
+        if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
+            PhotonNetwork.LoadLevel("Battle");
         }
+
+        //// 룸에 접속한 사용자 정보
+        //Dictionary<int, Photon.Realtime.Player> roomPlayers = PhotonNetwork.CurrentRoom.Players;
+        //foreach (KeyValuePair<int, Photon.Realtime.Player> player in roomPlayers)
+        //{
+        //    Debug.Log($"{player.Value.NickName} : {player.Value.ActorNumber}");
+        //}
     }
 
 
@@ -75,6 +96,7 @@ public class PhotonServerManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log($"룸 입장에 실패했습니다. {returnCode}:{message}");
+        return;
 
         // 룸 속성 정의
         RoomOptions roomOptions = new RoomOptions();

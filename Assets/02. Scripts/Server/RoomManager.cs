@@ -18,25 +18,27 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public event Action<string> OnPlayerExit;
     public event Action<string, string> OnPlayerDead;
 
-
     public TextMeshProUGUI LogTextUI;
     private string _log;
+
+    private bool _initialized = false;
 
     private void Awake()
     {
         _instance = this;
     }
-
+    private void Start()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            Init();
+        }
+    }
+    
     // "내가" 방에 입장하면 자동으로 호출되는 메서드
     public override void OnJoinedRoom()
     {
-        GeneratePlayer();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(GenerateBoss());
-        }
-        SetRoom();
-        OnRoomDataChanged?.Invoke();
+        Init();
     }
 
     // "다른 플레이어가" 방에 입장하면 자동으로 호출되는 메서드
@@ -96,5 +98,29 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         OnPlayerDead?.Invoke
             ($"{deadPlayerName}_{actorNumber}", $"{killerPlayerName}_{otherActorNumber}");
+    }
+
+    private void Init()
+    {
+        if (_initialized)
+        {
+            return;
+        }
+
+        _initialized = true;
+
+        // 1. 플레이어 생성
+        GeneratePlayer();
+
+        // 2. 룸 설정
+        SetRoom();
+
+        // 3. 보스 생성
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(GenerateBoss());
+        }
+
+        OnRoomDataChanged?.Invoke();
     }
 }
