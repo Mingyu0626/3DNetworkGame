@@ -1,7 +1,7 @@
-using ExitGames.Client.Photon;
+using System;
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -11,8 +11,7 @@ public enum ECharacterType
     Female
 }
 
-
-public class LobbyScene : MonoBehaviour
+public class LobbyScene : MonoBehaviourPunCallbacks
 {
     public TMP_InputField NickinameInputField;
     public TMP_InputField RoomNameInputField;
@@ -21,10 +20,15 @@ public class LobbyScene : MonoBehaviour
     public GameObject MaleCharacter;
     public GameObject FemaleCharacter;
 
-    private void Start()
-    {
-        OnClickMaleCharacter();
-    }
+    // 로버트C마틴 -> 클린코드(1장. 깨끗한 코드 -> 변수명)
+    // 큰거에 대해서 신뢰감을 쌓기 위해서는 작은거부터 신뢰감을 쌓아가야한다.
+    // 일관성있는 용어를 써라. (List vs 복수형 -> 둘 중 하나만 써라)
+    private List<RoomInfo> _roomList;
+    public List<RoomInfo> RoomList => _roomList;
+    public event Action OnDataChanged;
+
+
+
 
     public void OnClickMaleCharacter() => OnClickCharacterTypeButton(ECharacterType.Male);
     public void OnClickFemaleCharacter() => OnClickCharacterTypeButton(ECharacterType.Female);
@@ -39,14 +43,29 @@ public class LobbyScene : MonoBehaviour
         FemaleCharacter.SetActive(characterType == ECharacterType.Female);
     }
 
-    // 현업에서 싱글톤 상속 계층구조 설계방식
-    // (1). 종류별로 따로 기본 스크립트를 만든다.
-    // 1. C# 전용
-    // 2. DontDestroyOnLoad(false) - 
-    // 3. DontDestroyOnLoad(true) - PermanantSingletonBehaviour
+    // 싱글톤 상속받아서 쓰는데
+    // 현업
+    // - 1. 종류별로 따로 기본 스크립트를 만든다.
+    //   - C# 전용 (모노비헤비어 X) - Singleton
+    //   - DontDestroyOnLoad     - PermanentSingletonBehaviour
+    //   - DontDestroyOnLoad X   - SingletonBehaviour
 
-    // (2). 위 내용을 옵션으로 선택할 수 있게끔 한다.
-    // - 또한, 위 내용 뿐만이 아니라 초기화 시점도 선택 가능하게끔 한다.
+    // - 2. 위 내용을 옵션으로 선태할 수 있게..
+    //   - 위 내용 뿐만 아니라
+    //   - 초기화 시점도 선택가능하게.. (Awake, Start, Lazy)
+
+    public static LobbyScene Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        OnClickMaleCharacter();
+    }
+
 
 
     // 방 만들기 함수를 호출
@@ -74,27 +93,38 @@ public class LobbyScene : MonoBehaviour
         roomOptions.IsOpen = true;     // 룸 입장 가능 여부
         roomOptions.IsVisible = true;  // 로비(채널) 룸 목록에 노출시킬지 여부
 
-        // Room Custom Property(플레이어 Custom Property와 사용법이 거의 동일)
-        ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable()
-        {
-            {"MasterNickname", nickname}
-        };
-        roomOptions.CustomRoomProperties = roomProperties;
         // Room 생성
         PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
     }
 
+
+    // 룸 목록을 수신하는 콜백 함수
+    // 내가 입장한 로비(채널)에서 룸이 수정/삭제/추가되면 호출되는 콜백 함수
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        _roomList = roomList;
+        OnDataChanged?.Invoke();
+
+        foreach (RoomInfo room in roomList)
+        {
+            // UI에 필요한 내용: 방 이름, 방장명, 인원수
+            Debug.Log($"{room.Name}(방장명): ({room.PlayerCount}/{room.MaxPlayers})");
+        }
+    }
+
     public void TryJoinRoom(string roomName)
     {
-        string nickName = NickinameInputField.text;
+        string nickname = NickinameInputField.text;
 
-        if (string.IsNullOrEmpty(nickName))
+        if (string.IsNullOrEmpty(nickname))
         {
             return;
         }
 
-        PhotonNetwork.NickName = nickName;
+        PhotonNetwork.NickName = nickname;
+
         PhotonNetwork.JoinRoom(roomName);
+
         return;
     }
 }

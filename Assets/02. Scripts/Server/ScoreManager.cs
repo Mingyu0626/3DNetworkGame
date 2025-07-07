@@ -11,7 +11,11 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     public static ScoreManager Instance { get; private set; }
+
     private Dictionary<string, int> _scores = new Dictionary<string, int>();
+
+
+
     public Dictionary<string, int> Scores => _scores;
 
     private List<KeyValuePair<string, int>> _sortedScoreList;
