@@ -5,11 +5,6 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 
-public enum ECharacterType
-{
-    Male,
-    Female
-}
 
 public class LobbyScene : MonoBehaviourPunCallbacks
 {
