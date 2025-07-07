@@ -1,12 +1,43 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using TMPro;
 using UnityEngine;
+
+public enum ECharacterType
+{
+    Male,
+    Female
+}
+
 
 public class LobbyScene : MonoBehaviour
 {
     public TMP_InputField NickinameInputField;
     public TMP_InputField RoomNameInputField;
+
+    public static ECharacterType CharacterType = ECharacterType.Male;
+    public GameObject MaleCharacter;
+    public GameObject FemaleCharacter;
+
+    private void Start()
+    {
+        OnClickMaleCharacter();
+    }
+
+    public void OnClickMaleCharacter() => OnClickCharacterTypeButton(ECharacterType.Male);
+    public void OnClickFemaleCharacter() => OnClickCharacterTypeButton(ECharacterType.Female);
+    public void OnClickCharacterTypeButton(ECharacterType characterType)
+    {
+        // 파라미터(매개변수) vs 인자
+        // parameter vs argument
+
+        CharacterType = characterType;
+
+        MaleCharacter.SetActive(characterType == ECharacterType.Male);
+        FemaleCharacter.SetActive(characterType == ECharacterType.Female);
+    }
 
     // 현업에서 싱글톤 상속 계층구조 설계방식
     // (1). 종류별로 따로 기본 스크립트를 만든다.
@@ -43,7 +74,27 @@ public class LobbyScene : MonoBehaviour
         roomOptions.IsOpen = true;     // 룸 입장 가능 여부
         roomOptions.IsVisible = true;  // 로비(채널) 룸 목록에 노출시킬지 여부
 
+        // Room Custom Property(플레이어 Custom Property와 사용법이 거의 동일)
+        ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable()
+        {
+            {"MasterNickname", nickname}
+        };
+        roomOptions.CustomRoomProperties = roomProperties;
         // Room 생성
         PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+    }
+
+    public void TryJoinRoom(string roomName)
+    {
+        string nickName = NickinameInputField.text;
+
+        if (string.IsNullOrEmpty(nickName))
+        {
+            return;
+        }
+
+        PhotonNetwork.NickName = nickName;
+        PhotonNetwork.JoinRoom(roomName);
+        return;
     }
 }
